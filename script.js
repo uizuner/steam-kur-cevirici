@@ -81,7 +81,7 @@ async function findGameByName() {
 async function displayPrice(appid) {
     try {
         // Fetching game details from your server-side proxy
-        const response = await fetch(`http://localhost:3000/steam/gameDetails?appid=${appid}`);
+        const response = await fetch(`http://localhost:3001/steam/gameDetails?appid=${appid}`);
         const data = await response.json();
 
         // Ensure the data is returned successfully from the Steam API
