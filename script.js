@@ -23,7 +23,7 @@ async function getGamesList() {
 
 async function getSteamGameDetails(appid, countryCode = 'tr') {
     try {
-        const url = `https://crossorigin.me/http://store.steampowered.com/api/appdetails?appids=${appid}&cc=${countryCode}`;
+        const url = `http://store.steampowered.com/api/appdetails?appids=${appid}&cc=${countryCode}`;
         const response = await fetch(url);
         const data = await response.json();
 
@@ -80,6 +80,35 @@ async function findGameByName() {
 
 async function displayPrice(appid) {
     try {
+        // Fetching game details from your server-side proxy
+        const response = await fetch(`http://localhost:3000/steam/gameDetails?appid=${appid}`);
+        const data = await response.json();
+
+        // Ensure the data is returned successfully from the Steam API
+        if (data[appid].success && data[appid].data && data[appid].data.price_overview) {
+            const priceInfo = data[appid].data.price_overview;
+            const priceInUSD = priceInfo.final / 100; // Convert to dollars if the price is in cents
+
+            // Convert USD price to local currency (example uses TRY)
+            const exchangeRate = await getCurrentExchangeRate(); // Make sure this function is defined and working
+            const localPrice = Math.round(priceInUSD * exchangeRate);
+            const formattedPrice = `${localPrice} ₺`;
+
+            // Display the formatted price
+            document.getElementById('priceResult').innerText = `Yerel para birimindeki fiyat: ${formattedPrice}`;
+        } else {
+            document.getElementById('priceResult').innerText = 'Fiyat bilgisi bulunamadı.';
+        }
+    } catch (error) {
+        console.error('Fiyat hesaplama hatası:', error);
+        document.getElementById('priceResult').innerText = 'Fiyat hesaplanamadı.';
+    }
+}
+
+
+
+/* async function displayPrice(appid) {
+    try {
         const priceInUSD = await getSteamGameDetails(appid);
         if (priceInUSD === null) {
             document.getElementById('priceResult').innerText = 'Fiyat bilgisi bulunamadı.';
@@ -95,7 +124,7 @@ async function displayPrice(appid) {
         console.error('Fiyat hesaplama hatası:', error);
         document.getElementById('priceResult').innerText = 'Fiyat hesaplanamadı.';
     }
-}
+} */
 
 
 
