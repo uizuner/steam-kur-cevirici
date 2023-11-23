@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Steam Oyun Fiyat Hesaplama</title>
+    <link rel="stylesheet" href="style.css"> <!-- CSS dosyası burada import ediliyor -->
+</head>
+<body>
+    <div class="container">
+        <h1>Steam Oyun Fiyatı Hesaplama</h1>
+        <input type="text" id="gameNameInput" placeholder="Oyun ismi giriniz">
+        <button onclick="findGameByName()">Oyunu Bul ve Fiyatını Hesapla</button>
+        <br>
+        <input type="text" id="gameIdInput" placeholder="Oyun ID giriniz">
+        <button onclick="calculateLocalPriceUI()">Fiyatı Hesapla</button>
+        <div id="priceResult"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
